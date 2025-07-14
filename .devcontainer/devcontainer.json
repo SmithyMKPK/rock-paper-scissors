@@ -1,0 +1,47 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+	"name": "BSMP AI Games",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	//"image": "mcr.microsoft.com/devcontainers/python:0-3.11",
+	"image": "mcr.microsoft.com/vscode/devcontainers/python:3.10",
+    "hostRequirements": {"cpus": 2, "memory": "8gb"},
+    "features": {
+        "node": "18",
+        "docker-from-docker": {"version": "latest"}
+    },
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"vsls-contrib.codetour",
+				"ms-python.python",
+				"GitHub.copilot"
+			]
+		}
+	},
+	
+	//"forwardPorts": [6080],
+	"forwardPorts": [6080,5000,3000],
+	"portsAttributes": {
+		"6080": {
+		"label": "Pygame Desktop",
+		"onAutoForward": "openBrowser"
+		}
+	},
+	
+  "postCreateCommand": [
+    "bash", "-c",
+    //"sudo apt-get update && sudo apt-get install -y x11vnc xvfb fluxbox novnc python3-websockify dbus-x11 x11-utils && python -m venv .venv && .venv/bin/pip install pygame"
+	//"sudo apt-get update && sudo apt-get install -y x11vnc xvfb fluxbox novnc python3-websockify dbus-x11 x11-utils && python -m venv .venv && pip install -r requirements.txt"
+	"sudo apt-get update && sudo apt-get install -y x11vnc xvfb fluxbox novnc python3-websockify dbus-x11 x11-utils && pip install -r requirements.txt"
+  ],
+  
+  "postStartCommand": [
+    "bash", "-c", 
+    "chmod +x ./admin/start_vnc.sh && ./admin/start_vnc.sh"
+	//"pip install -r requirements.txt"
+  ],
+  
+  "remoteUser": "vscode"
+  //"remoteUser": "BSMPcoder"
+}
